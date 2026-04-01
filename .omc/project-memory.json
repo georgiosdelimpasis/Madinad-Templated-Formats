@@ -32,21 +32,57 @@
   "hotPaths": [
     {
       "path": "src/App.tsx",
-      "accessCount": 13,
-      "lastAccessed": 1775067888497,
+      "accessCount": 52,
+      "lastAccessed": 1775085793213,
       "type": "file"
     },
     {
       "path": "src/components/Sidebar.tsx",
-      "accessCount": 12,
-      "lastAccessed": 1775067631856,
+      "accessCount": 35,
+      "lastAccessed": 1775085607411,
+      "type": "file"
+    },
+    {
+      "path": "public/banner/index.html",
+      "accessCount": 26,
+      "lastAccessed": 1775085291043,
       "type": "file"
     },
     {
       "path": "src/utils/patchBanner.ts",
-      "accessCount": 7,
-      "lastAccessed": 1775067608877,
+      "accessCount": 22,
+      "lastAccessed": 1775085716704,
       "type": "file"
+    },
+    {
+      "path": "src/components/CommandBar.tsx",
+      "accessCount": 17,
+      "lastAccessed": 1775085559022,
+      "type": "file"
+    },
+    {
+      "path": "src/components/FloatingPanels.tsx",
+      "accessCount": 13,
+      "lastAccessed": 1775084079942,
+      "type": "file"
+    },
+    {
+      "path": "src/components/EmptyState.tsx",
+      "accessCount": 13,
+      "lastAccessed": 1775085410311,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Toolbar.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1775085783275,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 6,
+      "lastAccessed": 1775076569934,
+      "type": "directory"
     },
     {
       "path": "index.html",
@@ -61,27 +97,33 @@
       "type": "file"
     },
     {
-      "path": "src/components/CommandBar.tsx",
+      "path": "src/components/BannerPreview.tsx",
       "accessCount": 4,
-      "lastAccessed": 1775066793774,
+      "lastAccessed": 1775082442148,
       "type": "file"
     },
     {
-      "path": "src/components/Toolbar.tsx",
+      "path": "src",
       "accessCount": 3,
-      "lastAccessed": 1775067100989,
-      "type": "file"
-    },
-    {
-      "path": "src/components/EmptyState.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1775067102074,
-      "type": "file"
+      "lastAccessed": 1775082643343,
+      "type": "directory"
     },
     {
       "path": "tsconfig.json",
       "accessCount": 2,
       "lastAccessed": 1775065618272,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 2,
+      "lastAccessed": 1775076545912,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Icon.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1775082448607,
       "type": "file"
     },
     {
@@ -91,33 +133,21 @@
       "type": "file"
     },
     {
-      "path": "src/components/Icon.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1775065716633,
-      "type": "file"
-    },
-    {
       "path": "vite.config.ts",
       "accessCount": 1,
       "lastAccessed": 1775065948589,
       "type": "file"
     },
     {
-      "path": "",
+      "path": "src/utils/generateTexts.ts",
       "accessCount": 1,
-      "lastAccessed": 1775066283210,
-      "type": "directory"
-    },
-    {
-      "path": "public/banner/index.html",
-      "accessCount": 1,
-      "lastAccessed": 1775066730440,
+      "lastAccessed": 1775076647448,
       "type": "file"
     },
     {
-      "path": "src/components/BannerPreview.tsx",
+      "path": "src/utils/exportBanner.ts",
       "accessCount": 1,
-      "lastAccessed": 1775066741353,
+      "lastAccessed": 1775085769947,
       "type": "file"
     }
   ],

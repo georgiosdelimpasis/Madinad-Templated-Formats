@@ -270,22 +270,28 @@
     60% { left: 100%; }
     to  { left: 100%; }
   }
+  @keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .slide-skeleton {
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+  }
+  .bg-skeleton {
+    background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%) !important;
+    background-size: 200% 100% !important;
+    animation: skeleton-shimmer 1.5s infinite;
+  }
 </style>
 </head>
 <body>
 
 <div class="bg-scene">
-  <div class="bg-layer" style="background-image:url(1.webp);opacity:1;"></div>
+  <div class="bg-layer bg-skeleton" style="opacity:1;"></div>
   <div class="bg-layer" style="opacity:0;"></div>
-  <!-- Particles -->
-  <div class="particle" style="width:10px;height:14px;background:#f9c4c4;left:12%;animation-duration:7s;animation-delay:0s;"></div>
-  <div class="particle" style="width:7px;height:10px;background:#fde68a;left:28%;animation-duration:9s;animation-delay:1.5s;"></div>
-  <div class="particle" style="width:12px;height:16px;background:#bbf7d0;left:50%;animation-duration:8s;animation-delay:3s;"></div>
-  <div class="particle" style="width:8px;height:11px;background:#c4b5fd;left:70%;animation-duration:6.5s;animation-delay:0.8s;"></div>
-  <div class="particle" style="width:9px;height:13px;background:#fed7aa;left:85%;animation-duration:10s;animation-delay:2s;"></div>
-  <div class="particle" style="width:6px;height:9px;background:#f9c4c4;left:40%;animation-duration:7.5s;animation-delay:4s;"></div>
-  <div class="particle" style="width:11px;height:15px;background:#a5f3fc;left:60%;animation-duration:9.5s;animation-delay:1s;"></div>
-  <div class="particle" style="width:7px;height:10px;background:#fde68a;left:20%;animation-duration:8.5s;animation-delay:5s;"></div>
   <!-- Timer bar -->
   <div class="mountain mountain-left"></div>
   <div class="mountain mountain-right"></div>
@@ -294,32 +300,21 @@
 
 <div class="phone">
   <div class="logo-row">
-    <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 209.26 96.03">
-      <path d="M209.18,95.15V.67c-8.64-.53-26.28-.67-35.38-.67C113.94,0,63.11,11.31,41.32,28.54v.04l-41.32-.03v39.45h42.21c22.32,16.83,72.62,28.02,131.59,28.02,9.1,0,26.74-.34,35.38-.87Z" fill="#fff"/>
-      <rect x="3.07" y="31.43" width="181.98" height="33.61" fill="none" stroke="#164194" stroke-width="1.79"/>
-      <rect x="6.07" y="34.68" width="27.11" height="27.12" fill="#164194"/>
-      <path d="M19.61,36.73c-6.3,0-11.41,5.11-11.41,11.41s5.11,11.41,11.41,11.41,11.41-5.1,11.41-11.41-5.11-11.41-11.41-11.41Z" fill="#fff"/>
-      <rect x="35.86" y="34.69" width="146.21" height="27.12" fill="#e30613"/>
-      <polygon points="42.36 38.28 58.15 38.28 58.15 42.31 51.1 42.31 51.1 58.11 42.36 58.11 42.36 38.28" fill="#fff"/>
-      <rect x="59.83" y="38.28" width="9.07" height="19.83" fill="#fff"/>
-      <polygon points="99.84 38.28 121.34 38.28 121.34 42.31 114.96 42.31 114.96 58.11 105.89 58.11 105.89 42.31 99.84 42.31 99.84 38.28" fill="#fff"/>
-      <polygon points="123.03 38.28 132.1 38.28 132.1 46.34 138.82 46.34 138.9 38.35 147.9 38.28 147.9 58.11 138.82 58.11 138.82 50.38 132.1 50.38 132.11 58.12 123.03 58.11 123.03 38.28" fill="#fff"/>
-      <polygon points="149.58 38.28 169.07 38.28 169.07 42.31 163.02 42.31 167.06 48.37 163.36 54.08 169.07 54.11 169.07 58.11 149.58 58.11 155.97 48.37 149.58 38.28" fill="#fff"/>
-      <path d="M95.08,54.09c2.96-1.49,4.79-3.83,4.79-6.74,0-5.25-5.95-9.42-13.82-9.42s-14.05,4.16-14.05,9.42c0,2.82,1.78,5.1,4.65,6.6h-4.38v4.16h10.09l2.8-4.48s-2.58-1.01-2.58-3.14v-6.62s.56-2.8,3.59-2.8,3.61,2.69,3.61,2.69c0,0-.02,4.71-.02,6.73s-2.69,3.13-2.69,3.13l2.69,4.48h10.09v-4.02h-4.75Z" fill="#fff"/>
-      <path d="M209.26,3.25c-8.41-.5-27.1-.77-35.98-.77-55.96,0-105.28,10.84-127.56,26.04h142.44s0,39.55,0,39.55H46.71c22.65,14.91,70.82,25.48,126.07,25.48,9.19,0,27.77-.29,36.47-.83" fill="#e30613"/>
-    </svg>
-    <span class="logo-tagline">Δημιουργήστε<br>τις πιο γλυκές Πασχαλινές αναμνήσεις</span>
+    <div class="logo-svg" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.12);border:1.5px dashed rgba(255,255,255,0.35);border-radius:8px;height:40px;padding:0 16px;">
+      <span style="color:rgba(255,255,255,0.55);font-size:12px;font-weight:600;letter-spacing:0.04em;white-space:nowrap;">Your Logo</span>
+    </div>
+    <span class="logo-tagline">Your campaign slogan goes here</span>
   </div>
 
 <div class="carousel-scene">
     <div class="carousel-axle">
     <div class="carousel-drum">
-      <div class="slide"><img src="1.webp" alt="Look 1"></div>
-      <div class="slide"><img src="2.webp" alt="Look 2"></div>
-      <div class="slide"><img src="3.webp" alt="Look 3"></div>
-      <div class="slide"><img src="4.webp" alt="Look 4"></div>
-      <div class="slide"><img src="5.webp" alt="Look 5"></div>
-      <div class="slide"><img src="6.webp" alt="Look 6"></div>
+      <div class="slide"><div class="slide-skeleton" data-slot="1"></div></div>
+      <div class="slide"><div class="slide-skeleton" data-slot="2"></div></div>
+      <div class="slide"><div class="slide-skeleton" data-slot="3"></div></div>
+      <div class="slide"><div class="slide-skeleton" data-slot="4"></div></div>
+      <div class="slide"><div class="slide-skeleton" data-slot="5"></div></div>
+      <div class="slide"><div class="slide-skeleton" data-slot="6"></div></div>
     </div>
     </div>
   </div>
@@ -350,12 +345,12 @@
   const DRAG_SENSITIVITY = 0.45; // deg per px
 
   const POSES = [
-    { z:  0, x:  0, label: 'Παραδοσιακό', headline: 'Τσουρέκι με σταφίδες',                        url: 'https://example.com/tsoureki' },
-    { z: 18, x: -5, label: 'Γλυκό',       headline: 'Τούρτα τιραμισού με κρέπες',                  url: 'https://example.com/tourta-tiramisu' },
-    { z:-10, x:  8, label: 'Τάρτα',       headline: 'Εποχιακή τάρτα ροδάκινο',                       url: 'https://example.com/tarta-rodakino' },
-    { z: 22, x: -3, label: 'Επιδόρπιο',   headline: 'Ανάλαφρο trifle με κρέμα φρούτου',             url: 'https://example.com/trifle' },
-    { z:-15, x: -6, label: 'Πασχαλινό',   headline: 'Πασχαλινά λαγουδάκια με γλυκόξινη σοκολάτα', url: 'https://example.com/lagoudakia' },
-    { z:  5, x: 14, label: 'Σαλάτα',      headline: 'Σαλάτα με λαχανικά και ΦΡΕΣΚΑ Crème',         url: 'https://example.com/salata' },
+    { z:  0, x:  0, label: 'LABEL TEXT', headline: '', url: '' },
+    { z: 18, x: -5, label: 'LABEL TEXT', headline: '', url: '' },
+    { z:-10, x:  8, label: 'LABEL TEXT', headline: '', url: '' },
+    { z: 22, x: -3, label: 'LABEL TEXT', headline: '', url: '' },
+    { z:-15, x: -6, label: 'LABEL TEXT', headline: '', url: '' },
+    { z:  5, x: 14, label: 'LABEL TEXT', headline: '', url: '' },
   ];
 
   const bgLayers = document.querySelectorAll('.bg-layer');

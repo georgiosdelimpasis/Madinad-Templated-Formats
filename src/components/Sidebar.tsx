@@ -16,39 +16,35 @@ export interface BannerColors {
 
 interface SidebarProps {
   uploadedFiles: (File | null)[];
-  slotTexts: string[];
   logoFile: File | null;
-  logoText: string;
   colors: BannerColors;
   onUpload: (index: number, file: File) => void;
   onRemove: (index: number) => void;
   onBulkUpload: (files: File[]) => void;
-  onTextChange: (index: number, text: string) => void;
   onLogoFileChange: (file: File | null) => void;
-  onLogoTextChange: (text: string) => void;
   onColorChange: (key: keyof BannerColors, value: string) => void;
 }
 
 function ImageSlot({
-  index, file, text, onUpload, onRemove, onTextChange,
+  index, file, onUpload, onRemove,
 }: {
-  index: number; file: File | null; text: string;
-  onUpload: (file: File) => void; onRemove: () => void; onTextChange: (text: string) => void;
+  index: number; file: File | null;
+  onUpload: (file: File) => void; onRemove: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [draggingOver, setDraggingOver] = useState(false);
   const previewUrl = file ? URL.createObjectURL(file) : null;
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="relative shrink-0">
+    <div className="flex flex-col gap-2">
+      <div className="relative">
         <label
-          className={`relative flex items-center justify-center rounded-lg border-2 cursor-pointer overflow-hidden transition-all ${
+          className={`relative flex w-full items-center justify-center rounded-lg border-2 cursor-pointer overflow-hidden transition-all ${
             draggingOver ? 'border-primary-container bg-primary-container/10'
             : file ? 'border-transparent'
             : 'border-dashed border-surface-variant hover:border-primary-container/50 hover:bg-surface-container-high'
           }`}
-          style={{ width: 56, height: 40 }}
+          style={{ height: 96 }}
           onDragOver={e => { e.preventDefault(); setDraggingOver(true); }}
           onDragLeave={() => setDraggingOver(false)}
           onDrop={e => { e.preventDefault(); setDraggingOver(false); const f = e.dataTransfer.files[0]; if (f?.type.startsWith('image/')) onUpload(f); }}
@@ -70,9 +66,6 @@ function ImageSlot({
           </button>
         )}
       </div>
-      <input type="text" value={text} onChange={e => onTextChange(e.target.value)}
-        placeholder={`Slide ${index + 1} headline…`}
-        className="flex-1 min-w-0 bg-surface-container-lowest border border-surface-variant rounded-lg px-2.5 py-1.5 text-xs font-medium text-on-surface placeholder:text-on-secondary-container focus:outline-none focus:border-primary-container transition-colors" />
     </div>
   );
 }
@@ -92,9 +85,9 @@ function ColorRow({ label, value, onChange }: { label: string; value: string; on
 }
 
 export default function Sidebar({
-  uploadedFiles, slotTexts, logoFile, logoText, colors,
-  onUpload, onRemove, onBulkUpload, onTextChange,
-  onLogoFileChange, onLogoTextChange, onColorChange,
+  uploadedFiles, logoFile, colors,
+  onUpload, onRemove, onBulkUpload,
+  onLogoFileChange, onColorChange,
 }: SidebarProps) {
   const [active, setActive] = useState('logos');
   const [bulkDragging, setBulkDragging] = useState(false);
@@ -118,8 +111,8 @@ export default function Sidebar({
           <Icon name="category" fill className="text-white" />
         </div>
         <div>
-          <h1 className="text-on-surface font-extrabold text-lg leading-tight">AdGen Studio</h1>
-          <p className="text-on-secondary-container text-xs font-medium">Creative Assets</p>
+          <h1 className="text-on-surface font-extrabold text-lg leading-tight">Madinad</h1>
+          <p className="text-on-secondary-container text-xs font-medium">Adgen Studio</p>
         </div>
       </div>
 
@@ -161,14 +154,6 @@ export default function Sidebar({
               </button>
             )}
 
-            <div className="flex flex-col gap-1">
-              <label className="text-[10px] font-bold text-on-secondary-container uppercase tracking-wide px-1">
-                Text fallback {logoFile ? '(ignored — logo uploaded)' : '(shown instead of logo)'}
-              </label>
-              <input type="text" value={logoText} onChange={e => onLogoTextChange(e.target.value)}
-                placeholder="e.g. My Brand"
-                className="w-full bg-surface-container-lowest border border-surface-variant rounded-lg px-2.5 py-1.5 text-sm font-bold text-on-surface placeholder:text-on-secondary-container focus:outline-none focus:border-primary-container transition-colors" />
-            </div>
           </div>
         )}
 
@@ -197,9 +182,8 @@ export default function Sidebar({
             </label>
             <div className="flex flex-col gap-2 mt-1">
               {uploadedFiles.map((file, i) => (
-                <ImageSlot key={i} index={i} file={file} text={slotTexts[i]}
-                  onUpload={f => onUpload(i, f)} onRemove={() => onRemove(i)}
-                  onTextChange={t => onTextChange(i, t)} />
+                <ImageSlot key={i} index={i} file={file}
+                  onUpload={f => onUpload(i, f)} onRemove={() => onRemove(i)} />
               ))}
             </div>
           </div>

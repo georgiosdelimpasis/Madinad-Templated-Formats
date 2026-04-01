@@ -13,8 +13,11 @@ export async function patchBanner(
   files: File[],
   texts: string[],
   logoFile: File | null,
-  logoText: string,
   colors: BannerColors,
+  taglineText?: string,
+  labelTexts?: string[],
+  ctaText?: string,
+  slideUrls?: string[],
 ): Promise<string> {
   const [urls, logoDataUrl] = await Promise.all([
     Promise.all(files.map(fileToDataUrl)),
@@ -24,13 +27,19 @@ export async function patchBanner(
   const html = await fetch('/banner/index.html').then(r => r.text());
   let out = html;
 
-  // 1. Slide image src tags
+  // 1. Slide skeleton divs → real images
   urls.forEach((url, i) => {
-    out = out.replace(`src="${i + 1}.webp"`, `src="${url}"`);
+    out = out.replace(
+      `<div class="slide-skeleton" data-slot="${i + 1}"></div>`,
+      `<img src="${url}" alt="Look ${i + 1}" style="width:100%;height:100%;object-fit:cover;">`,
+    );
   });
 
-  // 2. Initial bg-layer inline style
-  out = out.replace('background-image:url(1.webp)', `background-image:url(${urls[0]})`);
+  // 2. Initial bg-layer skeleton → real background
+  out = out.replace(
+    'class="bg-layer bg-skeleton" style="opacity:1;"',
+    `class="bg-layer" style="background-image:url(${urls[0]});opacity:1;"`,
+  );
 
   // 3. JS dynamic bg switching
   out = out.replace('`url(${idx + 1}.webp)`', '`url(${window.__IMGS__[idx]})`');
@@ -39,8 +48,12 @@ export async function patchBanner(
   const filledTexts = texts.map(t => t.trim());
   const hasAnyText = filledTexts.some(t => t.length > 0);
 
+  const hasAnyLabel = labelTexts?.some(t => t.length > 0);
+
   const imgArrayScript = `<script>window.__IMGS__=${JSON.stringify(urls)};${
     hasAnyText ? `window.__TEXTS__=${JSON.stringify(filledTexts)};` : ''
+  }${hasAnyLabel && labelTexts ? `window.__LABELS__=${JSON.stringify(labelTexts)};` : ''
+  }${slideUrls ? `window.__URLS__=${JSON.stringify(slideUrls)};` : ''
   }\x3c/script>`;
 
   if (hasAnyText) {
@@ -57,21 +70,45 @@ export async function patchBanner(
   out = out.replace('<script>\n(function()', `${imgArrayScript}\n<script>\n(function()`);
 
   // 5. Logo
-  const svgPattern = /<svg class="logo-svg"[\s\S]*?<\/svg>/;
+  const svgPattern = /<(?:svg|div) class="logo-svg"[\s\S]*?<\/(?:svg|div)>/;
   if (logoDataUrl) {
     out = out.replace(
       svgPattern,
       `<img class="logo-svg" src="${logoDataUrl}" style="max-width:120px;height:auto;object-fit:contain;" />`
     );
-  } else if (logoText.trim()) {
-    const escaped = logoText.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // 6. Labels
+  if (hasAnyLabel) {
     out = out.replace(
-      svgPattern,
-      `<span style="display:block;font-size:26px;font-weight:900;color:#fff;letter-spacing:-0.5px;text-align:center;line-height:1.1;">${escaped}</span>`
+      'labelEl.textContent  = POSES[idx].label;',
+      'labelEl.textContent  = (window.__LABELS__[idx] || POSES[idx].label);'
+    );
+    out = out.replace(
+      'labelEl.textContent  = POSES[0].label;',
+      'labelEl.textContent  = (window.__LABELS__[0] || POSES[0].label);'
     );
   }
 
-  // 6. Colors
+  // 7. Tagline
+  if (taglineText !== undefined) {
+    out = out.replace('>Your campaign slogan goes here<', `>${taglineText}<`);
+  }
+
+  // 8. CTA button text
+  if (ctaText) {
+    out = out.replace('Δείτε περισσότερα', ctaText);
+  }
+
+  // 9. Slide click URLs
+  if (slideUrls) {
+    out = out.replace(
+      'window.open(POSES[curIdx].url, "_blank");',
+      'var u = (window.__URLS__ && window.__URLS__[curIdx]) || POSES[curIdx].url; if (u) window.open(u, "_blank");',
+    );
+  }
+
+  // 10. Colors
   out = out.replace('background-color: #ee1d25;', `background-color: ${colors.cta};`);
   out = out.replace(
     'color: #fff; font-size: 20px; font-weight: 800;',
