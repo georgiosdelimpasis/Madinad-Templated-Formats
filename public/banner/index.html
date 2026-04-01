@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800;900&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
 
   html, body {
@@ -286,6 +288,97 @@
     animation: skeleton-shimmer 1.5s infinite;
   }
 </style>
+<script>
+    var ANALYTICS_URL = "https://windrunner.orangeclickmedia.com/dtrack";
+
+    var dataCampaignId = window.frameElement.getAttribute("data-campaign-id");
+    var dataCreativeId = window.frameElement.getAttribute("data-creative-id");
+    var dataClickthrough = window.frameElement.getAttribute("data-ct");
+    var dataAdld = window.frameElement.getAttribute("data-adld");
+    var dataAdUnit = window.frameElement.getAttribute("data-ad-unit");
+    var dataDealId = window.frameElement.getAttribute("data-deal-id");
+
+    var isImpressionSent = false;
+
+    var firstParty = "";
+    try {
+      firstParty = window.parent?.ocmpbjs
+        ?.getUserIdsAsEids()
+        .filter((uid) => uid.source === "crwdcntrl.net")[0]?.uids[0]?.id;
+    } catch (error) {
+      firstParty = null;
+    }
+
+    var campaignData = {
+      campaign_id: dataCampaignId,
+      creative_id: dataCreativeId,
+      hostname: window.parent.location.hostname.replace("www.", ""),
+      url: `${window.parent.location.protocol}//${
+        window.parent.location.hostname + window.parent.location.pathname
+      }`,
+      oid: window.parent.localStorage.getItem("_oid"),
+      oeid: window.parent?.OCM?._oeid,
+      fpd: firstParty,
+      device: window.parent?.OCM?.device,
+      deal_id: dataDealId,
+      ad_unit: dataAdUnit,
+    };
+
+    var sendTrackEvent = (eventName, data) => {
+      data.event = eventName;
+
+      fetch(ANALYTICS_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain",
+          },
+          body: JSON.stringify(data),
+        })
+        .then((response) => {
+          response.json();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+
+    var onBodyClick = () => {
+      const clickUrl = decodeURIComponent(dataClickthrough);
+      sendTrackEvent("click", campaignData);
+      window.open(clickUrl, "_blank");
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+      if (isImpressionSent) {
+        return;
+      }
+      isImpressionSent = true;
+      sendTrackEvent("impression", campaignData);
+    });
+
+    var getDomainWithoutSubdomain = (url) => {
+      const urlParts = new URL(url).hostname.split(".");
+
+      if (
+        urlParts[1] === "svet24" ||
+        (urlParts[1] === "metropolitan" && urlParts[2] === "si")
+      ) {
+        return urlParts
+          .slice(0)
+          .slice(-3)
+          .join(".")
+          .replace("www.", "")
+          .replace("beta.", "");
+      }
+
+      return urlParts
+        .slice(0)
+        .slice(-(urlParts.length === 4 ? 3 : 2))
+        .join(".")
+        .replace("www.", "")
+        .replace("beta.", "");
+    };
+  </script>
 </head>
 <body>
 
@@ -390,6 +483,7 @@
   function ease(t) { return 1 - Math.pow(1 - t, 3); }
 
   function bodyClick() {
+    sendTrackEvent("click", campaignData);
     window.open(POSES[curIdx].url, "_blank");
   }
 
