@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775065153219,
+  "projectRoot": "/Users/georgiosdelimpasis/Dropbox (Personal)/Δελήμπασης Γεώργιος/Projects/Madinad-Templated Formats",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {},
+  "hotPaths": [
+    {
+      "path": "src/App.tsx",
+      "accessCount": 13,
+      "lastAccessed": 1775067888497,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Sidebar.tsx",
+      "accessCount": 12,
+      "lastAccessed": 1775067631856,
+      "type": "file"
+    },
+    {
+      "path": "src/utils/patchBanner.ts",
+      "accessCount": 7,
+      "lastAccessed": 1775067608877,
+      "type": "file"
+    },
+    {
+      "path": "index.html",
+      "accessCount": 5,
+      "lastAccessed": 1775065714049,
+      "type": "file"
+    },
+    {
+      "path": "src/index.css",
+      "accessCount": 4,
+      "lastAccessed": 1775065714489,
+      "type": "file"
+    },
+    {
+      "path": "src/components/CommandBar.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1775066793774,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Toolbar.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1775067100989,
+      "type": "file"
+    },
+    {
+      "path": "src/components/EmptyState.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1775067102074,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.json",
+      "accessCount": 2,
+      "lastAccessed": 1775065618272,
+      "type": "file"
+    },
+    {
+      "path": "src/main.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775065597822,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Icon.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775065716633,
+      "type": "file"
+    },
+    {
+      "path": "vite.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775065948589,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 1,
+      "lastAccessed": 1775066283210,
+      "type": "directory"
+    },
+    {
+      "path": "public/banner/index.html",
+      "accessCount": 1,
+      "lastAccessed": 1775066730440,
+      "type": "file"
+    },
+    {
+      "path": "src/components/BannerPreview.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775066741353,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

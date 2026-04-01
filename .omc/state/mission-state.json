@@ -1,0 +1,125 @@
+{
+  "updatedAt": "2026-04-01T17:49:15.547Z",
+  "missions": [
+    {
+      "id": "session:e3ff1e36-5e4f-49b2-81eb-36cb0c8a3804:none",
+      "source": "session",
+      "name": "none",
+      "objective": "Session mission",
+      "createdAt": "2026-04-01T17:43:54.251Z",
+      "updatedAt": "2026-04-01T17:49:15.547Z",
+      "status": "done",
+      "workerCount": 5,
+      "taskCounts": {
+        "total": 5,
+        "pending": 0,
+        "blocked": 0,
+        "inProgress": 0,
+        "completed": 5,
+        "failed": 0
+      },
+      "agents": [
+        {
+          "name": "executor:a7db431",
+          "role": "executor",
+          "ownership": "a7db4315a731da2db",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-01T17:47:21.785Z"
+        },
+        {
+          "name": "executor:a6f9484",
+          "role": "executor",
+          "ownership": "a6f9484fb412126b9",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-01T17:48:42.955Z"
+        },
+        {
+          "name": "executor:a8c18ad",
+          "role": "executor",
+          "ownership": "a8c18ad3c4b1dbde1",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-01T17:49:00.879Z"
+        },
+        {
+          "name": "executor:a90940f",
+          "role": "executor",
+          "ownership": "a90940f4db2776f02",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-01T17:49:03.619Z"
+        },
+        {
+          "name": "executor:ae5eb4c",
+          "role": "executor",
+          "ownership": "ae5eb4c4b8edfe640",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-04-01T17:49:15.547Z"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "session-start:a90940f4db2776f02:2026-04-01T17:48:33.151Z",
+          "at": "2026-04-01T17:48:33.151Z",
+          "kind": "update",
+          "agent": "executor:a90940f",
+          "detail": "started executor:a90940f",
+          "sourceKey": "session-start:a90940f4db2776f02"
+        },
+        {
+          "id": "session-stop:a6f9484fb412126b9:2026-04-01T17:48:42.955Z",
+          "at": "2026-04-01T17:48:42.955Z",
+          "kind": "completion",
+          "agent": "executor:a6f9484",
+          "detail": "completed",
+          "sourceKey": "session-stop:a6f9484fb412126b9"
+        },
+        {
+          "id": "session-start:ae5eb4c4b8edfe640:2026-04-01T17:48:44.331Z",
+          "at": "2026-04-01T17:48:44.331Z",
+          "kind": "update",
+          "agent": "executor:ae5eb4c",
+          "detail": "started executor:ae5eb4c",
+          "sourceKey": "session-start:ae5eb4c4b8edfe640"
+        },
+        {
+          "id": "session-stop:a8c18ad3c4b1dbde1:2026-04-01T17:49:00.879Z",
+          "at": "2026-04-01T17:49:00.879Z",
+          "kind": "completion",
+          "agent": "executor:a8c18ad",
+          "detail": "completed",
+          "sourceKey": "session-stop:a8c18ad3c4b1dbde1"
+        },
+        {
+          "id": "session-stop:a90940f4db2776f02:2026-04-01T17:49:03.619Z",
+          "at": "2026-04-01T17:49:03.619Z",
+          "kind": "completion",
+          "agent": "executor:a90940f",
+          "detail": "completed",
+          "sourceKey": "session-stop:a90940f4db2776f02"
+        },
+        {
+          "id": "session-stop:ae5eb4c4b8edfe640:2026-04-01T17:49:15.547Z",
+          "at": "2026-04-01T17:49:15.547Z",
+          "kind": "completion",
+          "agent": "executor:ae5eb4c",
+          "detail": "completed",
+          "sourceKey": "session-stop:ae5eb4c4b8edfe640"
+        }
+      ]
+    }
+  ]
+}

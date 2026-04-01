@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+
+  html, body {
+    width: 300px;
+    height: 600px;
+    overflow: hidden;
+    margin: 0;
+    font-family: 'Inter', -apple-system, sans-serif;
+    clip-path: inset(0);
+  }
+
+  body {
+    position: relative;
+    background: #ffffff;
+  }
+
+  .bg-scene {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 260px; height: 580px;
+    border-radius: 20px;
+    z-index: 0;
+    overflow: hidden; pointer-events: none;
+    background: none;
+  }
+  .bg-scene::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 4;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+  }
+  .bg-scene::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1;
+  }
+
+  /* Timer bar */
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    animation: float-particle linear infinite;
+  }
+  @keyframes float-particle {
+    0%   { transform: translateY(620px) rotate(0deg);   opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 0.5; }
+    100% { transform: translateY(-40px) rotate(360deg); opacity: 0; }
+  }
+  .bg-layer {
+    position: absolute; inset: 0;
+    transition: opacity 1.2s ease-in-out;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px);
+    transform: scale(1.12);
+  }
+
+
+  .phone {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 260px;
+    height: 580px;
+    background: transparent;
+    padding: 18px 22px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
+  }
+
+  .logo-row { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; gap: 14px; }
+  .logo-svg { width: var(--logo-width, 120px); height: auto; }
+  .logo-tagline {
+    font-size: 22px; font-weight: 800;
+    line-height: 1.12; letter-spacing: -0.2px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+  }
+
+  .nav { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .nav span {
+    color: #b8d8c8; font-size: 8px; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 500; cursor: pointer;
+  }
+  .nav-line { width: 30px; height: 1.5px; background: rgba(180,216,200,0.35); }
+
+  .carousel-scene {
+    width: 180px;
+    height: 150px;
+    position: relative;
+    margin-bottom: 40px;
+    perspective: 500px;
+    perspective-origin: 50% 50%;
+    overflow: visible;
+    cursor: grab;
+  }
+  .carousel-scene:hover { z-index: 100; }
+  .carousel-scene.dragging { cursor: grabbing; user-select: none; }
+
+  .carousel-axle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .carousel-drum {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .slide {
+    position: absolute;
+    width: 130px;
+    height: 90px;
+    left: 50%;
+    top: 50%;
+    z-index: 1000;
+    margin-left: -60px;
+    margin-top: -39px;
+    border-radius: 10px;
+    overflow: hidden;
+    backface-visibility: visible;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.7);
+    will-change: filter;
+    transition: box-shadow 0.35s ease, transform 0.4s ease;
+  }
+  .slide.active {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  }
+  .slide::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.4) 50%, transparent 75%);
+    transform: translateX(-150%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  @keyframes slide-shine {
+    from { transform: translateX(-150%); }
+    to   { transform: translateX(250%); }
+  }
+  .slide.slide-shine::after { animation: slide-shine 1.2s ease-out; }
+
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .slide:nth-child(1) { transform: rotateY(0deg)   translateZ(115px); }
+  .slide:nth-child(2) { transform: rotateY(60deg)  translateZ(115px); }
+  .slide:nth-child(3) { transform: rotateY(120deg) translateZ(115px); }
+  .slide:nth-child(4) { transform: rotateY(180deg) translateZ(115px); }
+  .slide:nth-child(5) { transform: rotateY(240deg) translateZ(115px); }
+  .slide:nth-child(6) { transform: rotateY(300deg) translateZ(115px); }
+
+  .carousel-scene:hover .slide.active:nth-child(1) { transform: rotateY(0deg)   translateZ(150px) scale(1.22); box-shadow: none; }
+  .carousel-scene:hover .slide.active:nth-child(2) { transform: rotateY(60deg)  translateZ(150px) scale(1.22); box-shadow: none; }
+  .carousel-scene:hover .slide.active:nth-child(3) { transform: rotateY(120deg) translateZ(150px) scale(1.22); box-shadow: none; }
+  .carousel-scene:hover .slide.active:nth-child(4) { transform: rotateY(180deg) translateZ(150px) scale(1.22); box-shadow: none; }
+  .carousel-scene:hover .slide.active:nth-child(5) { transform: rotateY(240deg) translateZ(150px) scale(1.22); box-shadow: none; }
+  .carousel-scene:hover .slide.active:nth-child(6) { transform: rotateY(300deg) translateZ(150px) scale(1.22); box-shadow: none; }
+
+  .carousel-scene:hover .slide:not(.active):nth-child(1) { transform: rotateY(0deg)   translateZ(115px) scale(0.88); }
+  .carousel-scene:hover .slide:not(.active):nth-child(2) { transform: rotateY(60deg)  translateZ(115px) scale(0.88); }
+  .carousel-scene:hover .slide:not(.active):nth-child(3) { transform: rotateY(120deg) translateZ(115px) scale(0.88); }
+  .carousel-scene:hover .slide:not(.active):nth-child(4) { transform: rotateY(180deg) translateZ(115px) scale(0.88); }
+  .carousel-scene:hover .slide:not(.active):nth-child(5) { transform: rotateY(240deg) translateZ(115px) scale(0.88); }
+  .carousel-scene:hover .slide:not(.active):nth-child(6) { transform: rotateY(300deg) translateZ(115px) scale(0.88); }
+
+  .content { width: 100%; text-align: left; padding: 0 2px; }
+  .label {
+    color: rgba(255,255,255,0.45); font-size: 10px;
+    letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; font-weight: 400; text-align: center;
+  }
+  .headline {
+    color: #fff; font-size: 20px; font-weight: 800;
+    line-height: 1.12; letter-spacing: -0.3px;  text-align: center;
+  }
+  @keyframes text-exit-up   { to { opacity:0; transform:translateY(-10px); } }
+  @keyframes text-exit-down { to { opacity:0; transform:translateY(10px);  } }
+  @keyframes label-enter    { from { opacity:0; transform:translateY(-14px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes headline-enter { from { opacity:0; transform:translateY(18px);  } to { opacity:1; transform:translateY(0); } }
+
+  .label.exit    { animation: text-exit-up   0.15s ease-in forwards; }
+  .headline.exit { animation: text-exit-down 0.15s ease-in forwards; }
+  .label.enter    { animation: label-enter    0.45s cubic-bezier(0.22,1,0.36,1) both; }
+  .headline.enter { animation: headline-enter 0.55s cubic-bezier(0.22,1,0.36,1) 0.06s both; }
+
+  .button {
+    position: relative;
+    margin-top: auto;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
+    padding-block: 0.5rem;
+    padding-inline: 1.25rem;
+    background-color: #ee1d25;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    gap: 10px;
+    font-weight: bold;
+    border: 3px solid #ffffff4d;
+    outline: none;
+    overflow: hidden;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .button .icon {
+    width: 24px; height: 24px;
+    transition: all 0.3s ease-in-out;
+  }
+  .button:hover { transform: scale(1.05); border-color: #fff9; }
+  .button:hover .icon { transform: translate(4px); }
+  .button:hover::before { animation: shine 1.5s ease-out infinite; }
+  @keyframes snap-pulse {
+    0%   { transform: scale(1);    border-color: #ffffff4d; }
+    25%  { transform: scale(1.07); border-color: #fff9; }
+    65%  { transform: scale(1.07); border-color: #fff9; }
+    100% { transform: scale(1);    border-color: #ffffff4d; }
+  }
+  @keyframes snap-icon {
+    0%   { transform: translate(0); }
+    25%  { transform: translate(5px); }
+    65%  { transform: translate(5px); }
+    100% { transform: translate(0); }
+  }
+  .button.snap-animate { animation: snap-pulse 1.2s ease-out; }
+  .button.snap-animate .icon { animation: snap-icon 1.2s ease-out; }
+  .button.snap-animate::before { animation: shine 1.2s ease-out; }
+  .button::before {
+    content: "";
+    position: absolute;
+    width: 100px; height: 100%;
+    background-image: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%);
+    top: 0; left: -100px; opacity: 0.6;
+  }
+  @keyframes shine {
+    0%  { left: -100px; }
+    60% { left: 100%; }
+    to  { left: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-scene">
+  <div class="bg-layer" style="background-image:url(1.webp);opacity:1;"></div>
+  <div class="bg-layer" style="opacity:0;"></div>
+  <!-- Particles -->
+  <div class="particle" style="width:10px;height:14px;background:#f9c4c4;left:12%;animation-duration:7s;animation-delay:0s;"></div>
+  <div class="particle" style="width:7px;height:10px;background:#fde68a;left:28%;animation-duration:9s;animation-delay:1.5s;"></div>
+  <div class="particle" style="width:12px;height:16px;background:#bbf7d0;left:50%;animation-duration:8s;animation-delay:3s;"></div>
+  <div class="particle" style="width:8px;height:11px;background:#c4b5fd;left:70%;animation-duration:6.5s;animation-delay:0.8s;"></div>
+  <div class="particle" style="width:9px;height:13px;background:#fed7aa;left:85%;animation-duration:10s;animation-delay:2s;"></div>
+  <div class="particle" style="width:6px;height:9px;background:#f9c4c4;left:40%;animation-duration:7.5s;animation-delay:4s;"></div>
+  <div class="particle" style="width:11px;height:15px;background:#a5f3fc;left:60%;animation-duration:9.5s;animation-delay:1s;"></div>
+  <div class="particle" style="width:7px;height:10px;background:#fde68a;left:20%;animation-duration:8.5s;animation-delay:5s;"></div>
+  <!-- Timer bar -->
+  <div class="mountain mountain-left"></div>
+  <div class="mountain mountain-right"></div>
+  <div class="fog"></div>
+</div>
+
+<div class="phone">
+  <div class="logo-row">
+    <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 209.26 96.03">
+      <path d="M209.18,95.15V.67c-8.64-.53-26.28-.67-35.38-.67C113.94,0,63.11,11.31,41.32,28.54v.04l-41.32-.03v39.45h42.21c22.32,16.83,72.62,28.02,131.59,28.02,9.1,0,26.74-.34,35.38-.87Z" fill="#fff"/>
+      <rect x="3.07" y="31.43" width="181.98" height="33.61" fill="none" stroke="#164194" stroke-width="1.79"/>
+      <rect x="6.07" y="34.68" width="27.11" height="27.12" fill="#164194"/>
+      <path d="M19.61,36.73c-6.3,0-11.41,5.11-11.41,11.41s5.11,11.41,11.41,11.41,11.41-5.1,11.41-11.41-5.11-11.41-11.41-11.41Z" fill="#fff"/>
+      <rect x="35.86" y="34.69" width="146.21" height="27.12" fill="#e30613"/>
+      <polygon points="42.36 38.28 58.15 38.28 58.15 42.31 51.1 42.31 51.1 58.11 42.36 58.11 42.36 38.28" fill="#fff"/>
+      <rect x="59.83" y="38.28" width="9.07" height="19.83" fill="#fff"/>
+      <polygon points="99.84 38.28 121.34 38.28 121.34 42.31 114.96 42.31 114.96 58.11 105.89 58.11 105.89 42.31 99.84 42.31 99.84 38.28" fill="#fff"/>
+      <polygon points="123.03 38.28 132.1 38.28 132.1 46.34 138.82 46.34 138.9 38.35 147.9 38.28 147.9 58.11 138.82 58.11 138.82 50.38 132.1 50.38 132.11 58.12 123.03 58.11 123.03 38.28" fill="#fff"/>
+      <polygon points="149.58 38.28 169.07 38.28 169.07 42.31 163.02 42.31 167.06 48.37 163.36 54.08 169.07 54.11 169.07 58.11 149.58 58.11 155.97 48.37 149.58 38.28" fill="#fff"/>
+      <path d="M95.08,54.09c2.96-1.49,4.79-3.83,4.79-6.74,0-5.25-5.95-9.42-13.82-9.42s-14.05,4.16-14.05,9.42c0,2.82,1.78,5.1,4.65,6.6h-4.38v4.16h10.09l2.8-4.48s-2.58-1.01-2.58-3.14v-6.62s.56-2.8,3.59-2.8,3.61,2.69,3.61,2.69c0,0-.02,4.71-.02,6.73s-2.69,3.13-2.69,3.13l2.69,4.48h10.09v-4.02h-4.75Z" fill="#fff"/>
+      <path d="M209.26,3.25c-8.41-.5-27.1-.77-35.98-.77-55.96,0-105.28,10.84-127.56,26.04h142.44s0,39.55,0,39.55H46.71c22.65,14.91,70.82,25.48,126.07,25.48,9.19,0,27.77-.29,36.47-.83" fill="#e30613"/>
+    </svg>
+    <span class="logo-tagline">Δημιουργήστε<br>τις πιο γλυκές Πασχαλινές αναμνήσεις</span>
+  </div>
+
+<div class="carousel-scene">
+    <div class="carousel-axle">
+    <div class="carousel-drum">
+      <div class="slide"><img src="1.webp" alt="Look 1"></div>
+      <div class="slide"><img src="2.webp" alt="Look 2"></div>
+      <div class="slide"><img src="3.webp" alt="Look 3"></div>
+      <div class="slide"><img src="4.webp" alt="Look 4"></div>
+      <div class="slide"><img src="5.webp" alt="Look 5"></div>
+      <div class="slide"><img src="6.webp" alt="Look 6"></div>
+    </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <p class="label"></p>
+    <h1 class="headline"></h1>
+  </div>
+
+  <button class="button">
+    Δείτε περισσότερα
+    <svg class="icon" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+(function() {
+  const scene  = document.querySelector('.carousel-scene');
+  const drum   = document.querySelector('.carousel-drum');
+  const axle   = document.querySelector('.carousel-axle');
+  const slides = document.querySelectorAll('.slide');
+  const N      = slides.length;
+
+  const SNAP_MS = 650;
+  const HOLD_MS = 1500;
+  const DRAG_SENSITIVITY = 0.45; // deg per px
+
+  const POSES = [
+    { z:  0, x:  0, label: 'Παραδοσιακό', headline: 'Τσουρέκι με σταφίδες',                        url: 'https://example.com/tsoureki' },
+    { z: 18, x: -5, label: 'Γλυκό',       headline: 'Τούρτα τιραμισού με κρέπες',                  url: 'https://example.com/tourta-tiramisu' },
+    { z:-10, x:  8, label: 'Τάρτα',       headline: 'Εποχιακή τάρτα ροδάκινο',                       url: 'https://example.com/tarta-rodakino' },
+    { z: 22, x: -3, label: 'Επιδόρπιο',   headline: 'Ανάλαφρο trifle με κρέμα φρούτου',             url: 'https://example.com/trifle' },
+    { z:-15, x: -6, label: 'Πασχαλινό',   headline: 'Πασχαλινά λαγουδάκια με γλυκόξινη σοκολάτα', url: 'https://example.com/lagoudakia' },
+    { z:  5, x: 14, label: 'Σαλάτα',      headline: 'Σαλάτα με λαχανικά και ΦΡΕΣΚΑ Crème',         url: 'https://example.com/salata' },
+  ];
+
+  const bgLayers = document.querySelectorAll('.bg-layer');
+  let activeBgIdx = 0;
+
+  const contentEl  = document.querySelector('.content');
+  const labelEl    = contentEl.querySelector('.label');
+  const headlineEl = contentEl.querySelector('.headline');
+
+  const btnEl      = document.querySelector('.button');
+
+  function updateContent(idx) {
+    const next = 1 - activeBgIdx;
+    bgLayers[next].style.backgroundImage = `url(${idx + 1}.webp)`;
+    bgLayers[next].style.opacity = '1';
+    bgLayers[activeBgIdx].style.opacity = '0';
+    activeBgIdx = next;
+    labelEl.classList.remove('enter'); headlineEl.classList.remove('enter');
+    labelEl.classList.add('exit');    headlineEl.classList.add('exit');
+    setTimeout(() => {
+      labelEl.textContent  = POSES[idx].label;
+      headlineEl.innerHTML = POSES[idx].headline;
+      labelEl.classList.remove('exit');   headlineEl.classList.remove('exit');
+      void labelEl.offsetWidth;
+      labelEl.classList.add('enter');     headlineEl.classList.add('enter');
+    }, 150);
+    btnEl.onclick = bodyClick;
+    btnEl.classList.remove('snap-animate');
+    void btnEl.offsetWidth;
+    btnEl.classList.add('snap-animate');
+    const s = slides[idx];
+    s.classList.remove('slide-shine');
+    void s.offsetWidth;
+    s.classList.add('slide-shine');
+  }
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function bodyClick() {
+    window.open(POSES[curIdx].url, "_blank");
+  }
+
+  // Populate first slide content immediately
+  labelEl.textContent  = POSES[0].label;
+  headlineEl.innerHTML = POSES[0].headline;
+  labelEl.classList.add('enter');
+  headlineEl.classList.add('enter');
+  btnEl.onclick = bodyClick;
+
+  // Auto-cycle state
+  let curIdx = 0, nextIdx = 1;
+  let fromZ = POSES[0].z, fromX = POSES[0].x, fromAngle = 0;
+  let toZ = POSES[1].z, toX = POSES[1].x;
+  const d0 = ((-(360/N)) % 360 + 540) % 360 - 180;
+  let toAngle = d0;
+  let cycleStart = null;
+  let needsWrite = true;
+  let contentFired = false;
+
+  // Drag state
+  let mode = 'auto'; // 'auto' | 'drag' | 'snapback'
+  let paused = false;
+  let prevNow = null;
+  let currentAngle = 0;
+  let currentAxleZ = POSES[0].z, currentAxleX = POSES[0].x;
+  let dragStartX = 0, dragBaseAngle = 0;
+  let snapFromAngle = 0, snapToAngle = 0, snapStart = null;
+  let snapFromAxleZ = 0, snapFromAxleX = 0;
+  let snapAxleZ = 0, snapAxleX = 0;
+
+  function applyTransforms(axleZ, axleX, drumAngle) {
+    currentAngle  = drumAngle;
+    currentAxleZ  = axleZ;
+    currentAxleX  = axleX;
+    axle.style.transform = `rotateZ(${axleZ}deg) rotateX(${axleX}deg)`;
+    drum.style.transform = `rotateY(${drumAngle}deg)`;
+    const yRad = drumAngle * Math.PI / 180;
+    for (let i = 0; i < N; i++) {
+      const f = (Math.cos(yRad + (i / N) * Math.PI * 2) + 1) / 2;
+      slides[i].style.filter = 'brightness(' + (0.35 + f * f * 0.65) + ')';
+      slides[i].classList.toggle('active', f > 0.9);
+    }
+  }
+
+  // ── Drag handlers ────────────────────────────────────
+  function getX(e) { return e.touches ? e.touches[0].clientX : e.clientX; }
+
+  scene.addEventListener('mousedown',  onDragStart);
+  scene.addEventListener('touchstart', onDragStart, { passive: true });
+  window.addEventListener('mousemove',  onDragMove);
+  window.addEventListener('touchmove',  onDragMove, { passive: true });
+  window.addEventListener('mouseup',   onDragEnd);
+  window.addEventListener('touchend',  onDragEnd);
+
+  let liveX = 0; // updated by mousemove, read by rAF
+  let dragVelocity = 0, prevDragX = 0, prevDragTime = 0;
+
+  function onDragStart(e) {
+    mode = 'drag';
+    dragStartX    = getX(e);
+    liveX         = dragStartX;
+    prevDragX     = dragStartX;
+    prevDragTime  = performance.now();
+    dragVelocity  = 0;
+    dragBaseAngle = currentAngle;
+    scene.classList.add('dragging');
+  }
+
+  function onDragMove(e) {
+    if (mode !== 'drag') return;
+    const now  = performance.now();
+    const newX = getX(e);
+    const dt   = now - prevDragTime;
+    if (dt > 0 && dt < 50) dragVelocity = (newX - liveX) / dt;
+    liveX        = newX;
+    prevDragTime = now;
+  }
+
+  const VELOCITY_THRESHOLD = 0.4; // px/ms
+
+  function onDragEnd() {
+    if (mode !== 'drag') return;
+    scene.classList.remove('dragging');
+
+    // Velocity or nearest snap
+    const nearest = Math.round(-currentAngle / (360 / N));
+    let target = nearest;
+    if (dragVelocity < -VELOCITY_THRESHOLD) target = nearest + 1;
+    if (dragVelocity >  VELOCITY_THRESHOLD) target = nearest - 1;
+    dragVelocity = 0;
+
+    const snapIdx  = ((target % N) + N) % N;
+    const ideal    = -(target * (360 / N));
+    const d        = ((ideal - currentAngle) % 360 + 540) % 360 - 180;
+
+    snapFromAngle  = currentAngle;
+    snapToAngle    = currentAngle + d;
+    snapFromAxleZ  = currentAxleZ;
+    snapFromAxleX  = currentAxleX;
+    snapAxleZ      = POSES[snapIdx].z;
+    snapAxleX      = POSES[snapIdx].x;
+    snapStart      = null;
+
+    // Resume auto-cycle from snapped slide
+    curIdx    = snapIdx;
+    nextIdx   = (curIdx + 1) % N;
+
+    mode = 'snapback';
+  }
+
+  // ── rAF loop ─────────────────────────────────────────
+  function update(now) {
+    if (mode === 'drag') {
+      const angle = dragBaseAngle + (liveX - dragStartX) * DRAG_SENSITIVITY;
+      applyTransforms(currentAxleZ, currentAxleX, angle);
+    } else if (mode === 'snapback') {
+      if (snapStart === null) { snapStart = now; updateContent(curIdx); }
+      const t     = ease(Math.min((now - snapStart) / SNAP_MS, 1));
+      const angle = snapFromAngle + (snapToAngle - snapFromAngle) * t;
+      applyTransforms(
+        snapFromAxleZ + (snapAxleZ - snapFromAxleZ) * t,
+        snapFromAxleX + (snapAxleX - snapFromAxleX) * t,
+        angle
+      );
+      if (now - snapStart >= SNAP_MS) {
+        applyTransforms(snapAxleZ, snapAxleX, snapToAngle);
+        fromAngle  = snapToAngle;
+        fromZ      = POSES[curIdx].z;
+        fromX      = POSES[curIdx].x;
+        toZ        = POSES[nextIdx].z;
+        toX        = POSES[nextIdx].x;
+        const ideal = -(nextIdx * (360 / N));
+        const d     = ((ideal - fromAngle) % 360 + 540) % 360 - 180;
+        toAngle    = fromAngle + d;
+        cycleStart = now;
+        needsWrite = false;
+        mode       = 'auto';
+      }
+    } else {
+      // auto mode
+      if (cycleStart === null) cycleStart = now;
+      if (paused && prevNow !== null) cycleStart += now - prevNow;
+      const elapsed = now - cycleStart;
+
+      if (elapsed >= HOLD_MS + SNAP_MS) {
+        applyTransforms(toZ, toX, toAngle);
+        curIdx    = nextIdx;
+        nextIdx   = (nextIdx + 1) % N;
+        fromZ     = POSES[curIdx].z;
+        fromX     = POSES[curIdx].x;
+        fromAngle = toAngle;
+        toZ       = POSES[nextIdx].z;
+        toX       = POSES[nextIdx].x;
+        const ideal = -(nextIdx * (360 / N));
+        const d     = ((ideal - fromAngle) % 360 + 540) % 360 - 180;
+        toAngle    = fromAngle + d;
+        cycleStart = now;
+        needsWrite = false;
+        contentFired = false;
+      } else if (elapsed >= HOLD_MS) {
+        if (!contentFired) {
+          updateContent(nextIdx);
+          contentFired = true;
+        }
+        const t = ease(Math.min((elapsed - HOLD_MS) / SNAP_MS, 1));
+        applyTransforms(
+          fromZ + (toZ - fromZ) * t,
+          fromX + (toX - fromX) * t,
+          fromAngle + (toAngle - fromAngle) * t
+        );
+        needsWrite = true;
+      } else if (needsWrite) {
+        applyTransforms(fromZ, fromX, fromAngle);
+        needsWrite = false;
+        contentFired = false;
+      }
+    }
+
+    prevNow = now;
+    requestAnimationFrame(update);
+  }
+
+  scene.addEventListener('mouseenter', () => { paused = true; });
+  scene.addEventListener('mouseleave', () => { paused = false; prevNow = null; });
+
+  requestAnimationFrame(update);
+})();
+</script>
+</body>
+</html>
