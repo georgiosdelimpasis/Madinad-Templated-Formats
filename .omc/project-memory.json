@@ -1,155 +1,138 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1775065153219,
+  "lastScanned": 1776349878600,
   "projectRoot": "/Users/georgiosdelimpasis/Dropbox (Personal)/Δελήμπασης Γεώργιος/Projects/Madinad-Templated Formats",
   "techStack": {
-    "languages": [],
-    "frameworks": [],
-    "packageManager": null,
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "8.0.1",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
     "runtime": null
   },
   "build": {
-    "buildCommand": null,
+    "buildCommand": "npm run build",
     "testCommand": null,
     "lintCommand": null,
-    "devCommand": null,
-    "scripts": {}
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc && vite build",
+      "preview": "vite preview"
+    }
   },
   "conventions": {
     "namingStyle": null,
     "importStyle": null,
     "testPattern": null,
-    "fileOrganization": null
+    "fileOrganization": "type-based"
   },
   "structure": {
     "isMonorepo": false,
     "workspaces": [],
-    "mainDirectories": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
     "gitBranches": null
   },
   "customNotes": [],
-  "directoryMap": {},
-  "hotPaths": [
-    {
-      "path": "src/App.tsx",
-      "accessCount": 52,
-      "lastAccessed": 1775085793213,
-      "type": "file"
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 3,
+      "lastAccessed": 1776349878594,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg",
+        "index.html"
+      ]
     },
-    {
-      "path": "src/components/Sidebar.tsx",
-      "accessCount": 35,
-      "lastAccessed": 1775085607411,
-      "type": "file"
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 3,
+      "lastAccessed": 1776349878594,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg"
+      ]
     },
-    {
-      "path": "public/banner/index.html",
-      "accessCount": 35,
-      "lastAccessed": 1775086702837,
-      "type": "file"
-    },
-    {
-      "path": "src/utils/patchBanner.ts",
-      "accessCount": 22,
-      "lastAccessed": 1775085716704,
-      "type": "file"
-    },
-    {
-      "path": "src/components/CommandBar.tsx",
-      "accessCount": 17,
-      "lastAccessed": 1775085559022,
-      "type": "file"
-    },
-    {
-      "path": "src/components/FloatingPanels.tsx",
-      "accessCount": 13,
-      "lastAccessed": 1775084079942,
-      "type": "file"
-    },
-    {
-      "path": "src/components/EmptyState.tsx",
-      "accessCount": 13,
-      "lastAccessed": 1775085410311,
-      "type": "file"
-    },
-    {
-      "path": "src/components/Toolbar.tsx",
-      "accessCount": 7,
-      "lastAccessed": 1775085783275,
-      "type": "file"
-    },
-    {
-      "path": "",
-      "accessCount": 6,
-      "lastAccessed": 1775076569934,
-      "type": "directory"
-    },
-    {
-      "path": "index.html",
-      "accessCount": 5,
-      "lastAccessed": 1775065714049,
-      "type": "file"
-    },
-    {
-      "path": "src/index.css",
-      "accessCount": 4,
-      "lastAccessed": 1775065714489,
-      "type": "file"
-    },
-    {
-      "path": "src/components/BannerPreview.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1775082442148,
-      "type": "file"
-    },
-    {
+    "src": {
       "path": "src",
-      "accessCount": 3,
-      "lastAccessed": 1775082643343,
-      "type": "directory"
+      "purpose": "Source code",
+      "fileCount": 3,
+      "lastAccessed": 1776349878596,
+      "keyFiles": [
+        "App.tsx",
+        "index.css",
+        "main.tsx"
+      ]
     },
-    {
-      "path": "tsconfig.json",
-      "accessCount": 2,
-      "lastAccessed": 1775065618272,
-      "type": "file"
+    "dist/assets": {
+      "path": "dist/assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1776349878596,
+      "keyFiles": [
+        "index-BA1vjssN.css",
+        "index-DnvvdlUl.js"
+      ]
     },
-    {
-      "path": "package.json",
-      "accessCount": 2,
-      "lastAccessed": 1775076545912,
-      "type": "file"
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 7,
+      "lastAccessed": 1776349878597,
+      "keyFiles": [
+        "BannerPreview.tsx",
+        "CommandBar.tsx",
+        "EmptyState.tsx"
+      ]
     },
-    {
-      "path": "src/components/Icon.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1775082448607,
-      "type": "file"
-    },
-    {
-      "path": "src/main.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1775065597822,
-      "type": "file"
-    },
-    {
-      "path": "vite.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775065948589,
-      "type": "file"
-    },
-    {
-      "path": "src/utils/generateTexts.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775076647448,
-      "type": "file"
-    },
-    {
-      "path": "src/utils/exportBanner.ts",
-      "accessCount": 1,
-      "lastAccessed": 1775085769947,
-      "type": "file"
+    "src/utils": {
+      "path": "src/utils",
+      "purpose": "Utility functions",
+      "fileCount": 2,
+      "lastAccessed": 1776349878597,
+      "keyFiles": [
+        "exportBanner.ts",
+        "patchBanner.ts"
+      ]
     }
-  ],
+  },
+  "hotPaths": [],
   "userDirectives": []
 }
